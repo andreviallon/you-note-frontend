@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: `<p>It works</p>`,
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'you-note-frontend';
