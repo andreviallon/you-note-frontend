@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-layout',
   template: `
     <mat-drawer-container class="h-full bg-white" autosize>
-      <mat-drawer #drawer class="example-sidenav" mode="side">
+      <mat-drawer #drawer mode="side" opened="true">
         <app-sidebar></app-sidebar>
       </mat-drawer>
 
