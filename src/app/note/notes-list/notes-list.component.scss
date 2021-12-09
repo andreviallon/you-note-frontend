@@ -1,0 +1,15 @@
+#app-notes-list {
+  .mat-selection-list {
+    padding: 0;
+  }
+  .mat-list-item-content {
+    padding: 1rem !important;
+  }
+  .mat-list-text {
+    padding: 0 !important;
+  }
+
+  .mat-list-item {
+    height: 60px;
+  }
+}
