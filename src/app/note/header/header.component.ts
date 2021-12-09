@@ -3,7 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'app-header',
   template: `
-    <mat-toolbar class="flex items-center">
+    <mat-toolbar class="flex items-center" color="primary">
       <button mat-icon-button (click)="toggleMenu.emit()">
         <mat-icon>menu</mat-icon>
       </button>
