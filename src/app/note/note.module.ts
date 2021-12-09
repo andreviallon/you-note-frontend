@@ -4,8 +4,14 @@ import { HeaderComponent } from './header/header.component';
 import { MaterialModule } from '../material/material.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { LayoutComponent } from './layout/layout.component';
+import { NotesListComponent } from './notes-list/notes-list.component';
 
-const components = [HeaderComponent, SidebarComponent, LayoutComponent];
+const components = [
+  HeaderComponent,
+  SidebarComponent,
+  LayoutComponent,
+  NotesListComponent,
+];
 
 @NgModule({
   declarations: [...components],
