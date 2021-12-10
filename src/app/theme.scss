@@ -1,0 +1,6 @@
+// Import material theming functions
+@import "~@angular/material/theming";
+
+// Copy the palettes from your selected theme (usually theme.scss).
+$app-primary: mat-palette($mat-grey);
+$app-accent: mat-palette($mat-light-blue);
