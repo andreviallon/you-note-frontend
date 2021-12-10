@@ -9,6 +9,9 @@ import { Component } from '@angular/core';
       </mat-drawer>
 
       <app-header (toggleMenu)="drawer.toggle()"></app-header>
+      <div class="w-full h-full drawer p-4">
+        <app-note-container></app-note-container>
+      </div>
     </mat-drawer-container>
   `,
   styleUrls: ['./layout.component.scss'],
