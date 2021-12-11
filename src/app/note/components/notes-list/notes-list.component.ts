@@ -20,7 +20,13 @@ import { mockNotes } from '../../note-mock-data';
         <mat-list-option *ngFor="let note of notes" [value]="note">
           <div class="flex justify-between items-center">
             {{ note.title }}
-            <mat-icon>clear</mat-icon>
+            <button
+              mat-icon-button
+              color="accent"
+              class="flex justify-center items-center"
+            >
+              <mat-icon class="text-lg">delete</mat-icon>
+            </button>
           </div>
           <mat-divider></mat-divider>
         </mat-list-option>
