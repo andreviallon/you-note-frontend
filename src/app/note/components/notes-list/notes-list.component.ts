@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Note } from 'src/app/note.model';
-import { mockNotes } from '../note-mock-data';
+import { mockNotes } from '../../note-mock-data';
 
 @Component({
   selector: 'app-notes-list',

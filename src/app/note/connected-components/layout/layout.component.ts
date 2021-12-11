@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
 
       <app-header (toggleMenu)="drawer.toggle()"></app-header>
       <div class="w-full h-full drawer p-4">
-        <app-note-container></app-note-container>
+        <app-note></app-note>
       </div>
     </mat-drawer-container>
   `,
