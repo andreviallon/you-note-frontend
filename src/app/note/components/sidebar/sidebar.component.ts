@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
     <div class="w-96 h-full p-4 flex flex-col justify-between">
       <app-notes-list></app-notes-list>
       <div class="flex justify-between items-center">
-        <span class="text-gray-400">john.doe@gmail.com</span>
+        <span class="text-gray-500">john.doe@gmail.com</span>
         <button mat-stroked-button color="accent">Logout</button>
       </div>
     </div>
