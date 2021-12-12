@@ -33,9 +33,10 @@ import { Note } from 'src/app/note.model';
               <mat-label>Title</mat-label>
               <input matInput formControlName="title" />
             </mat-form-field>
-            <mat-form-field appearance="outline" class="w-full">
-              <textarea matInput formControlName="content"></textarea>
-            </mat-form-field>
+            <quill-editor
+              [modules]="modules"
+              formControlName="content"
+            ></quill-editor>
           </div>
           <div class="flex gap-4">
             <button
@@ -63,10 +64,25 @@ import { Note } from 'src/app/note.model';
 export class NoteComponent implements OnInit {
   @Input() note!: Note;
 
-  public _videoLink = '';
-
   public noteForm!: FormGroup;
   public safeSrc!: SafeResourceUrl;
+  public modules = {
+    'emoji-shortname': true,
+    'emoji-textarea': true,
+    'emoji-toolbar': true,
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      [
+        { list: 'ordered' },
+        { list: 'bullet' },
+        { indent: '-1' },
+        { indent: '+1' },
+      ],
+      ['blockquote', 'code-block', { script: 'super' }],
+      [{ size: ['small', false, 'large', 'huge'] }],
+      [{ color: [] }, { background: [] }],
+    ],
+  };
 
   constructor(
     private formBuilder: FormBuilder,

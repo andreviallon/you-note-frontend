@@ -9,6 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NotesListComponent } from './components/notes-list/notes-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { QuillModule } from 'ngx-quill';
 
 const components = [
   HeaderComponent,
@@ -27,6 +28,7 @@ const components = [
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    QuillModule,
   ],
   exports: [...components],
 })
