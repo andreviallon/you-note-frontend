@@ -1,0 +1,28 @@
+#app-note {
+  @apply block pb-4 h-full;
+
+  .video_wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+  }
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ql-container {
+    overflow-y: scroll !important;
+    max-height: 250px !important;
+  }
+
+  .ql-toolbar {
+    border-radius: 5px 5px 0 0;
+  }
+
+  .ql-container {
+    border-radius: 0 0 5px 5px;
+  }
+}

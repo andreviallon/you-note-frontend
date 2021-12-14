@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  SimpleChanges,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Note } from 'src/app/note.model';
@@ -6,60 +12,55 @@ import { Note } from 'src/app/note.model';
 @Component({
   selector: 'app-note',
   template: `
-    <form
-      [formGroup]="noteForm"
-      class="grid grid-cols-1 lg:grid-cols-2 gap-4 h-full"
-    >
-      <mat-card class="col-span-1	w-full h-full">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Youtube Link</mat-label>
-          <input matInput formControlName="videoLink" />
-        </mat-form-field>
-        <div class="video_wrapper">
-          <iframe
-            [src]="safeSrc"
-            width="100%"
-            height="100%"
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
-        </div>
-      </mat-card>
+    <div id="app-note">
+      <form
+        [formGroup]="noteForm"
+        class="grid grid-cols-1 lg:grid-cols-2 gap-4 h-full"
+      >
+        <mat-card class="col-span-1	w-full h-full">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Youtube Link</mat-label>
+            <input matInput formControlName="videoLink" />
+          </mat-form-field>
+          <div class="video_wrapper">
+            <iframe
+              [src]="safeSrc"
+              width="100%"
+              height="100%"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </mat-card>
 
-      <mat-card class="col-span-1	w-full h-full">
-        <div class="flex flex-col justify-between h-full">
-          <div>
-            <mat-form-field appearance="outline" class="w-full">
-              <mat-label>Title</mat-label>
-              <input matInput formControlName="title" />
-            </mat-form-field>
-            <quill-editor
-              [modules]="modules"
-              formControlName="content"
-            ></quill-editor>
+        <mat-card class="col-span-1	w-full h-full">
+          <div class="flex flex-col justify-between h-full">
+            <div class="pb-4">
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Title</mat-label>
+                <input matInput formControlName="title" />
+              </mat-form-field>
+              <quill-editor
+                [modules]="modules"
+                formControlName="content"
+                [styles]="{ height: '250px' }"
+              ></quill-editor>
+            </div>
+            <div class="flex gap-4 justify-end">
+              <button mat-stroked-button (click)="discardChanges()">
+                Cancel
+              </button>
+              <button mat-flat-button color="primary" (click)="save()">
+                Save
+              </button>
+            </div>
           </div>
-          <div class="flex gap-4">
-            <button
-              mat-stroked-button
-              class="w-full"
-              (click)="discardChanges()"
-            >
-              Discard Changes
-            </button>
-            <button
-              mat-flat-button
-              color="primary"
-              class="w-full"
-              (click)="save()"
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </mat-card>
-    </form>
+        </mat-card>
+      </form>
+    </div>
   `,
   styleUrls: ['./note.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class NoteComponent implements OnInit {
   @Input() note!: Note;
@@ -78,6 +79,7 @@ export class NoteComponent implements OnInit {
         { indent: '-1' },
         { indent: '+1' },
       ],
+      [{ header: 1 }, { header: 2 }],
       ['blockquote', 'code-block', { script: 'super' }],
       [{ size: ['small', false, 'large', 'huge'] }],
       [{ color: [] }, { background: [] }],
