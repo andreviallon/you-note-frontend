@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { mockNotes } from '../../note-mock-data';
 
 @Component({
   selector: 'app-note-page',
@@ -10,8 +11,8 @@ import { Component } from '@angular/core';
 
       <div class="flex flex-col justify-between w-full h-full min-h-full">
         <app-header (toggleMenu)="drawer.toggle()"></app-header>
-        <div class="h-full drawer p-4">
-          <app-note></app-note>
+        <div class="h-full drawer p-4 container mx-auto">
+          <app-note [note]="note"></app-note>
         </div>
       </div>
     </mat-drawer-container>
@@ -20,4 +21,5 @@ import { Component } from '@angular/core';
 })
 export class NotePageComponent {
   public showSideBar = true;
+  public note = mockNotes[0];
 }
