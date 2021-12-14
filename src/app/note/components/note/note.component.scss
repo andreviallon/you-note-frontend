@@ -13,9 +13,15 @@
     height: 100%;
   }
 
+  quill-editor {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+  }
+
   .ql-container {
     overflow-y: scroll !important;
-    max-height: 250px !important;
   }
 
   .ql-toolbar {
