@@ -35,7 +35,7 @@ import { Note } from 'src/app/note.model';
 
         <mat-card class="col-span-1	w-full h-full">
           <div class="flex flex-col justify-between h-full">
-            <div class="pb-4">
+            <div class="pb-4 h-full flex justify-between items-center flex-col">
               <mat-form-field appearance="outline" class="w-full">
                 <mat-label>Title</mat-label>
                 <input matInput formControlName="title" />
@@ -43,7 +43,6 @@ import { Note } from 'src/app/note.model';
               <quill-editor
                 [modules]="modules"
                 formControlName="content"
-                [styles]="{ height: '250px' }"
               ></quill-editor>
             </div>
             <div class="flex gap-4 justify-end">
