@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthModule } from './auth/auth.module';
 import { MaterialModule } from './material/material.module';
 import { NoteModule } from './note/note.module';
 
@@ -15,6 +16,7 @@ import { NoteModule } from './note/note.module';
     MaterialModule,
     NoteModule,
     BrowserAnimationsModule,
+    AuthModule,
   ],
   exports: [MaterialModule],
   providers: [],
