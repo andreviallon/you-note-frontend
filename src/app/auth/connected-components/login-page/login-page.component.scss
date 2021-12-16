@@ -1,0 +1,10 @@
+@import "/src/app/theme.scss";
+
+:host {
+  @apply block w-full h-full;
+  background-color: mat-color($app-primary, 200);
+}
+
+mat-card {
+  width: 400px;
+}
