@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserCredentials } from '../../model/user-credentials';
 
 @Component({
   selector: 'app-login-form',
@@ -35,8 +36,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
         mat-flat-button
         class="flex w-full"
         color="primary"
-        (click)="login()"
-        [disabled]="!loginForm.valid"
+        (click)="submit()"
       >
         Login
       </button>
@@ -45,6 +45,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent implements OnInit {
+  @Output() login: EventEmitter<UserCredentials> = new EventEmitter();
+
   public loginForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}
@@ -57,7 +59,13 @@ export class LoginFormComponent implements OnInit {
     });
   }
 
-  public login(): void {
-    console.log('login', this.loginForm);
+  public submit(): void {
+    const user: UserCredentials = {
+      email: this.loginForm.get('email')?.value,
+      password: this.loginForm.get('password')?.value,
+      stayLoggedIn: this.loginForm.get('stayLoggedIn')?.value,
+    };
+
+    this.login.emit(user);
   }
 }

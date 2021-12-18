@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -7,6 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { UserCredentials } from '../../model/user-credentials';
 
 @Component({
   selector: 'app-sign-form',
@@ -35,11 +36,6 @@ import {
       >
         Password is required
       </mat-error>
-      <mat-error
-        *ngIf="signinForm.get('password')?.touched && signinForm.get('confirmPassword')?.touched && signinForm.errors?.['notSame']"
-      >
-        Passwords do not match
-      </mat-error>
       <mat-form-field class="w-full pt-2">
         <mat-label>Confirm password</mat-label>
         <input matInput formControlName="confirmPassword" type="password" />
@@ -52,6 +48,11 @@ import {
       >
         Confirm password is required
       </mat-error>
+      <mat-error
+        *ngIf="signinForm.get('password')?.touched && signinForm.get('confirmPassword')?.touched && signinForm.errors?.['notSame']"
+      >
+        Passwords do not match
+      </mat-error>
       <mat-checkbox class="mb-4" formControlName="stayLoggedIn"
         >Stay logged in</mat-checkbox
       >
@@ -59,7 +60,7 @@ import {
         mat-flat-button
         class="flex w-full"
         color="primary"
-        (click)="signin()"
+        (click)="submit()"
         [disabled]="!signinForm.valid"
       >
         Signin
@@ -69,6 +70,8 @@ import {
   styleUrls: ['./sign-form.component.scss'],
 })
 export class SignFormComponent implements OnInit {
+  @Output() signin: EventEmitter<UserCredentials> = new EventEmitter();
+
   public signinForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}
@@ -93,7 +96,13 @@ export class SignFormComponent implements OnInit {
     return password === confirmPassword ? null : { notSame: true };
   };
 
-  public signin(): void {
-    console.log('signin', this.signinForm);
+  public submit(): void {
+    const user: UserCredentials = {
+      email: this.signinForm.get('email')?.value,
+      password: this.signinForm.get('password')?.value,
+      stayLoggedIn: this.signinForm.get('stayLoggedIn')?.value,
+    };
+
+    this.signin.emit(user);
   }
 }
