@@ -10,16 +10,16 @@ import {
 import { UserCredentials } from '../../model/user-credentials';
 
 @Component({
-  selector: 'app-sign-form',
+  selector: 'app-signup-form',
   template: `
-    <form [formGroup]="signinForm" class="p-4">
+    <form [formGroup]="signupForm" class="p-4">
       <mat-form-field class="w-full pt-2">
         <mat-label>Email</mat-label>
         <input matInput formControlName="email" type="email" />
       </mat-form-field>
       <mat-error
         *ngIf="
-          signinForm.get('email')?.touched && signinForm.get('email')?.invalid
+          signupForm.get('email')?.touched && signupForm.get('email')?.invalid
         "
       >
         Email is required
@@ -30,8 +30,8 @@ import { UserCredentials } from '../../model/user-credentials';
       </mat-form-field>
       <mat-error
         *ngIf="
-          signinForm.get('password')?.touched &&
-          signinForm.get('password')?.invalid
+          signupForm.get('password')?.touched &&
+          signupForm.get('password')?.invalid
         "
       >
         Password is required
@@ -42,14 +42,14 @@ import { UserCredentials } from '../../model/user-credentials';
       </mat-form-field>
       <mat-error
         *ngIf="
-          signinForm.get('confirmPassword')?.touched &&
-          signinForm.get('confirmPassword')?.invalid
+          signupForm.get('confirmPassword')?.touched &&
+          signupForm.get('confirmPassword')?.invalid
         "
       >
         Confirm password is required
       </mat-error>
       <mat-error
-        *ngIf="signinForm.get('password')?.touched && signinForm.get('confirmPassword')?.touched && signinForm.errors?.['notSame']"
+        *ngIf="signupForm.get('password')?.touched && signupForm.get('confirmPassword')?.touched && signupForm.errors?.['notSame']"
       >
         Passwords do not match
       </mat-error>
@@ -61,23 +61,23 @@ import { UserCredentials } from '../../model/user-credentials';
         class="flex w-full"
         color="primary"
         (click)="submit()"
-        [disabled]="!signinForm.valid"
+        [disabled]="!signupForm.valid"
       >
         Signin
       </button>
     </form>
   `,
-  styleUrls: ['./sign-form.component.scss'],
+  styleUrls: ['./signup-form.component.scss'],
 })
-export class SignFormComponent implements OnInit {
-  @Output() signin: EventEmitter<UserCredentials> = new EventEmitter();
+export class SignupFormComponent implements OnInit {
+  @Output() signup: EventEmitter<UserCredentials> = new EventEmitter();
 
-  public signinForm!: FormGroup;
+  public signupForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
-    this.signinForm = this.formBuilder.group(
+    this.signupForm = this.formBuilder.group(
       {
         email: ['', [Validators.required, Validators.email]],
         password: ['', Validators.required],
@@ -98,11 +98,11 @@ export class SignFormComponent implements OnInit {
 
   public submit(): void {
     const user: UserCredentials = {
-      email: this.signinForm.get('email')?.value,
-      password: this.signinForm.get('password')?.value,
-      stayLoggedIn: this.signinForm.get('stayLoggedIn')?.value,
+      email: this.signupForm.get('email')?.value,
+      password: this.signupForm.get('password')?.value,
+      stayLoggedIn: this.signupForm.get('stayLoggedIn')?.value,
     };
 
-    this.signin.emit(user);
+    this.signup.emit(user);
   }
 }

@@ -14,7 +14,7 @@ import { Login, Signin } from '../../state/user.action';
         <mat-card-content>
           <mat-tab-group mat-align-tabs="center">
             <mat-tab label="Sign up">
-              <app-sign-form (signin)="signin($event)"></app-sign-form>
+              <app-signup-form (signup)="signup($event)"></app-signup-form>
             </mat-tab>
             <mat-tab label="Login">
               <app-login-form (login)="login($event)"></app-login-form>
@@ -29,8 +29,8 @@ import { Login, Signin } from '../../state/user.action';
 export class LoginPageComponent {
   constructor(private store: Store) {}
 
-  public signin(userCredentials: UserCredentials): void {
-    this.store.dispatch(new Signin(userCredentials));
+  public signup(userCredentials: UserCredentials): void {
+    this.store.dispatch(new Signup(userCredentials));
   }
 
   public login(userCredentials: UserCredentials): void {
