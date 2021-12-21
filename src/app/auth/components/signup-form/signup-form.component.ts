@@ -53,9 +53,6 @@ import { UserCredentials } from '../../model/user-credentials';
       >
         Passwords do not match
       </mat-error>
-      <mat-checkbox class="mb-4" formControlName="stayLoggedIn"
-        >Stay logged in</mat-checkbox
-      >
       <button
         mat-flat-button
         class="flex w-full"
@@ -82,7 +79,6 @@ export class SignupFormComponent implements OnInit {
         email: ['', [Validators.required, Validators.email]],
         password: ['', Validators.required],
         confirmPassword: ['', Validators.required],
-        stayLoggedIn: [false],
       },
       { validators: this.matchPasswords }
     );
@@ -100,7 +96,6 @@ export class SignupFormComponent implements OnInit {
     const user: UserCredentials = {
       email: this.signupForm.get('email')?.value,
       password: this.signupForm.get('password')?.value,
-      stayLoggedIn: this.signupForm.get('stayLoggedIn')?.value,
     };
 
     this.signup.emit(user);

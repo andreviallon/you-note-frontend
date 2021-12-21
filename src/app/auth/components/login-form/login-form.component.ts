@@ -29,9 +29,6 @@ import { UserCredentials } from '../../model/user-credentials';
       >
         Password is required
       </mat-error>
-      <mat-checkbox class="mb-4" formControlName="stayLoggedIn"
-        >Stay logged in</mat-checkbox
-      >
       <button
         mat-flat-button
         class="flex w-full"
@@ -63,7 +60,6 @@ export class LoginFormComponent implements OnInit {
     const user: UserCredentials = {
       email: this.loginForm.get('email')?.value,
       password: this.loginForm.get('password')?.value,
-      stayLoggedIn: this.loginForm.get('stayLoggedIn')?.value,
     };
 
     this.login.emit(user);
