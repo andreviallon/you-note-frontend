@@ -1,7 +1,9 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
@@ -24,6 +26,7 @@ import { Note } from 'src/app/note.model';
           </mat-form-field>
           <div class="video_wrapper">
             <iframe
+              *ngIf="safeSrc"
               [src]="safeSrc"
               width="100%"
               height="100%"
@@ -63,13 +66,11 @@ import { Note } from 'src/app/note.model';
 })
 export class NoteComponent implements OnInit {
   @Input() note!: Note;
+  @Output() updateNote: EventEmitter<Note> = new EventEmitter<Note>();
 
   public noteForm!: FormGroup;
   public safeSrc!: SafeResourceUrl;
   public modules = {
-    'emoji-shortname': true,
-    'emoji-textarea': true,
-    'emoji-toolbar': true,
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
       [
@@ -97,17 +98,19 @@ export class NoteComponent implements OnInit {
       content: [this.note.content],
     });
 
-    this.safeSrc = this.setSafeSrc(this.note.videoLink);
+    this.safeSrc = this.note.videoLink && this.setSafeSrc(this.note.videoLink);
 
     this.noteForm.get('videoLink')!.valueChanges.subscribe((link) => {
-      this.safeSrc = this.setSafeSrc(link);
+      if (link) this.safeSrc = this.setSafeSrc(link);
     });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes && this.note && this.noteForm) {
       this.noteForm.setValue({
-        videoLink: this.convertLink(this.note.videoLink),
+        videoLink: this.note.videoLink
+          ? this.convertLink(this.note.videoLink)
+          : '',
         title: this.note.title,
         content: this.note.content,
       });
@@ -123,7 +126,7 @@ export class NoteComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustResourceUrl(link);
   }
 
-  public convertLink(link: string) {
+  public convertLink(link: string): string {
     return link.split('watch?v=').join('embed/');
   }
 
@@ -135,8 +138,14 @@ export class NoteComponent implements OnInit {
     });
   }
 
-  public save() {
-    console.log('videoLink', this.noteForm.value.videoLink);
-    console.log('content', this.noteForm.value.content);
+  public save(): void {
+    const note: Note = {
+      id: this.note.id,
+      title: this.noteForm.value.title,
+      videoLink: this.noteForm.value.videoLink,
+      content: this.noteForm.value.content,
+    };
+
+    this.updateNote.emit(note);
   }
 }
