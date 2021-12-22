@@ -2,9 +2,14 @@
 
 :host {
   @apply block w-full h-full;
-  background-color: mat-color($app-primary, 200);
+  background-color: mat-color($app-primary, 500);
 }
 
 mat-card {
   width: 400px;
+}
+
+.mat-card-header .mat-card-title {
+  font-size: 1.4rem;
+  padding: 0.5rem 0;
 }
