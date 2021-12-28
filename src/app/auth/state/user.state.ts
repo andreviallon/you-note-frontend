@@ -6,6 +6,7 @@ import { User } from '../model/user';
 import { Login, Logout, Signup } from './user.action';
 import { JwtResponse } from '../model/jwt-response';
 import jwtDecode from 'jwt-decode';
+import { Token } from '../model/token';
 
 const URL = environment.apiUrl;
 
@@ -39,6 +40,21 @@ export class UserState {
   }
 
   @Selector()
+  static isExpired(state: UserStateModel): boolean {
+    if (state.token) {
+      const { exp } = jwtDecode(state.token) as Token;
+
+      if (exp < new Date().getTime() / 1000) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  @Selector()
   static errorMessage(state: UserStateModel): string | undefined {
     return state.errorMessage;
   }
@@ -57,8 +73,6 @@ export class UserState {
       })
       .subscribe({
         next: () => {
-          console.log('next');
-
           return dispatch(new Login(userCredentials));
         },
         error: (error) => {
