@@ -12,12 +12,6 @@ import {
 } from './note.action';
 
 const URL = environment.apiUrl;
-const TOKEN = localStorage.getItem('user.token');
-
-let headers = new HttpHeaders().set('Content-Type', 'application/json');
-if (TOKEN) {
-  headers = headers.append('Authorization', `Bearer ${JSON.parse(TOKEN)}`);
-}
 
 export class NoteStateModel {
   notes: Note[] | undefined;
@@ -65,7 +59,7 @@ export class NoteState {
     { patchState }: StateContext<NoteStateModel>,
     {}: GetUserNotes
   ) {
-    this.http.get(`${URL}/notes`, { headers }).subscribe({
+    this.http.get(`${URL}/notes`).subscribe({
       next: (res) => {
         const notes = res as Note[];
         patchState({ notes });
@@ -81,7 +75,7 @@ export class NoteState {
     { patchState, getState }: StateContext<NoteStateModel>,
     { title }: CreateNote
   ) {
-    this.http.post(`${URL}/notes`, { title }, { headers }).subscribe({
+    this.http.post(`${URL}/notes`, { title }).subscribe({
       next: (res) => {
         const resNote = res as Note;
         const currentNotes = getState().notes;
@@ -107,11 +101,11 @@ export class NoteState {
     { note }: UpdateNote
   ) {
     this.http
-      .patch(
-        `${URL}/notes/${note.id}`,
-        { title: note.title, videoLink: note.videoLink, content: note.content },
-        { headers }
-      )
+      .patch(`${URL}/notes/${note.id}`, {
+        title: note.title,
+        videoLink: note.videoLink,
+        content: note.content,
+      })
       .subscribe({
         next: (res) => {
           const resNote = res as Note;
@@ -134,7 +128,7 @@ export class NoteState {
     { patchState, getState }: StateContext<NoteStateModel>,
     { noteId }: DeleteNote
   ) {
-    this.http.delete(`${URL}/notes/${noteId}`, { headers }).subscribe({
+    this.http.delete(`${URL}/notes/${noteId}`).subscribe({
       next: () => {
         const newNotes = getState().notes?.filter((note) => note.id !== noteId);
         patchState({ notes: newNotes });
