@@ -5,7 +5,6 @@ import { User } from 'src/app/auth/model/user';
 import { Logout } from 'src/app/auth/state/user.action';
 import { UserState } from 'src/app/auth/state/user.state';
 import { Note } from 'src/app/note.model';
-import { mockNotes } from '../../note-mock-data';
 import {
   CreateNote,
   DeleteNote,
@@ -22,6 +21,7 @@ import { NoteState } from '../../state/note.state';
       <mat-drawer #drawer mode="side" opened="true">
         <app-sidebar
           [notes]="notes$ | async"
+          [selectedNote]="selectedNote$ | async"
           [user]="user$ | async"
           (selectNote)="selectNote($event)"
           (createNote)="createNote($event)"
@@ -48,7 +48,9 @@ import { NoteState } from '../../state/note.state';
 export class NotePageComponent {
   @Select(UserState.user) user$!: Observable<User>;
   @Select(NoteState.notes) notes$!: Observable<Note[]>;
-  @Select(NoteState.selectedNote) selectedNote$!: Observable<Note | undefined>;
+  @Select(NoteState.selectedNote) selectedNote$!: Observable<Note | null>;
+
+  public showSideBar = true;
 
   constructor(private store: Store) {}
 
@@ -79,7 +81,4 @@ export class NotePageComponent {
   public logout(): void {
     this.store.dispatch(new Logout());
   }
-
-  public showSideBar = true;
-  public note = mockNotes[0];
 }

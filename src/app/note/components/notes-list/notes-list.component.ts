@@ -5,7 +5,7 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Note } from 'src/app/note.model';
 
 @Component({
@@ -27,7 +27,11 @@ import { Note } from 'src/app/note.model';
 
       <p class="text-base font-medium">Your Notes</p>
       <mat-selection-list [multiple]="false" *ngIf="notes">
-        <mat-list-option *ngFor="let note of notes" [value]="note">
+        <mat-list-option
+          *ngFor="let note of notes"
+          [value]="note"
+          [selected]="note.id === selectedNote?.id"
+        >
           <div
             class="flex justify-between items-center"
             (click)="selectNote.emit(note.id)"
@@ -52,6 +56,7 @@ import { Note } from 'src/app/note.model';
 })
 export class NotesListComponent {
   @Input() notes!: Note[] | null;
+  @Input() selectedNote!: Note | null;
 
   @Output() selectNote: EventEmitter<string> = new EventEmitter();
   @Output() createNote: EventEmitter<string> = new EventEmitter();
@@ -63,11 +68,12 @@ export class NotesListComponent {
 
   public ngOnInit(): void {
     this.addNoteForm = this.formBuilder.group({
-      title: ['', Validators.required],
+      title: [''],
     });
   }
 
   public submit(): void {
     this.createNote.emit(this.addNoteForm.get('title')?.value);
+    this.addNoteForm.patchValue({ title: '' });
   }
 }

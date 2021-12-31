@@ -8,6 +8,7 @@ import { Note } from 'src/app/note.model';
     <div class="w-96 h-full p-4 flex flex-col justify-between">
       <app-notes-list
         [notes]="notes"
+        [selectedNote]="selectedNote"
         (selectNote)="selectNote.emit($event)"
         (createNote)="createNote.emit($event)"
         (deleteNote)="deleteNote.emit($event)"
@@ -24,6 +25,7 @@ import { Note } from 'src/app/note.model';
 })
 export class SidebarComponent {
   @Input() notes!: Note[] | null;
+  @Input() selectedNote!: Note | null;
   @Input() user!: User | null;
 
   @Output() selectNote: EventEmitter<string> = new EventEmitter();
