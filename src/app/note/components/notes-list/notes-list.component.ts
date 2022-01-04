@@ -31,11 +31,9 @@ import { Note } from 'src/app/note.model';
           *ngFor="let note of notes"
           [value]="note"
           [selected]="note.id === selectedNote?.id"
+          (click)="selectNote.emit(note.id)"
         >
-          <div
-            class="flex justify-between items-center"
-            (click)="selectNote.emit(note.id)"
-          >
+          <div class="flex justify-between items-center">
             {{ note.title }}
             <button
               mat-icon-button
