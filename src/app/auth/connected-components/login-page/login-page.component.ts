@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
 import { UserCredentials } from '../../model/user-credentials';
 import { Login, Signup } from '../../state/user.action';
-import { UserState } from '../../state/user.state';
 
 @Component({
   selector: 'app-login-page',
@@ -23,20 +21,12 @@ import { UserState } from '../../state/user.state';
             </mat-tab>
           </mat-tab-group>
         </mat-card-content>
-        <mat-error
-          *ngIf="errorMessage$ | async as errorMessage"
-          class="text-center	w-full"
-          >{{ errorMessage }}</mat-error
-        >
       </mat-card>
     </div>
   `,
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent {
-  @Select(UserState.errorMessage)
-  public errorMessage$!: Observable<string | undefined>;
-
   constructor(private store: Store) {}
 
   public signup(userCredentials: UserCredentials): void {

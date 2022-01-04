@@ -7,19 +7,18 @@ import { Login, Logout, Signup } from './user.action';
 import { JwtResponse } from '../model/jwt-response';
 import jwtDecode from 'jwt-decode';
 import { Token } from '../model/token';
+import { SetError } from 'src/app/state/error.action';
 
 const URL = environment.apiUrl;
 
 export class UserStateModel {
   token: string | undefined;
-  errorMessage: string | undefined;
 }
 
 @State<UserStateModel>({
   name: 'user',
   defaults: {
     token: undefined,
-    errorMessage: undefined,
   },
 })
 @Injectable()
@@ -54,16 +53,11 @@ export class UserState {
     }
   }
 
-  @Selector()
-  static errorMessage(state: UserStateModel): string | undefined {
-    return state.errorMessage;
-  }
-
   constructor(private http: HttpClient) {}
 
   @Action(Signup)
   async signup(
-    { patchState, dispatch }: StateContext<UserStateModel>,
+    { dispatch }: StateContext<UserStateModel>,
     { userCredentials }: Login
   ) {
     this.http
@@ -76,14 +70,14 @@ export class UserState {
           return dispatch(new Login(userCredentials));
         },
         error: (error) => {
-          patchState({ errorMessage: error.error.message });
+          dispatch(new SetError(error.error.message));
         },
       });
   }
 
   @Action(Login)
   async login(
-    { patchState }: StateContext<UserStateModel>,
+    { patchState, dispatch }: StateContext<UserStateModel>,
     { userCredentials }: Login
   ) {
     this.http
@@ -97,13 +91,10 @@ export class UserState {
 
           patchState({
             token: accessToken,
-            errorMessage: undefined,
           });
         },
         error: (error) => {
-          console.log('error', error);
-
-          patchState({ errorMessage: error.error.message });
+          dispatch(new SetError(error));
         },
       });
   }

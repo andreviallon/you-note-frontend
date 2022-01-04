@@ -12,6 +12,7 @@ import { NoteModule } from './note/note.module';
 
 import { NgxsModule } from '@ngxs/store';
 import { JwtInterceptor } from './jwt-interceptor';
+import { ErrorState } from './state/error.state';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,7 @@ import { JwtInterceptor } from './jwt-interceptor';
     NoteModule,
     BrowserAnimationsModule,
     AuthModule,
-    NgxsModule.forRoot([]),
+    NgxsModule.forRoot([ErrorState]),
   ],
   exports: [MaterialModule],
   providers: [
