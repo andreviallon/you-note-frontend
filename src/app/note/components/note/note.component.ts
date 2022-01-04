@@ -69,7 +69,7 @@ export class NoteComponent implements OnInit {
   @Output() updateNote: EventEmitter<Note> = new EventEmitter<Note>();
 
   public noteForm!: FormGroup;
-  public safeSrc!: SafeResourceUrl;
+  public safeSrc: SafeResourceUrl | undefined;
   public modules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -101,12 +101,12 @@ export class NoteComponent implements OnInit {
     this.safeSrc = this.note.videoLink && this.setSafeSrc(this.note.videoLink);
 
     this.noteForm.get('videoLink')!.valueChanges.subscribe((link) => {
-      if (link) this.safeSrc = this.setSafeSrc(link);
+      this.safeSrc = link ? this.setSafeSrc(link) : undefined;
     });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes && this.note && this.noteForm) {
+    if (changes && this.noteForm) {
       this.noteForm.setValue({
         videoLink: this.note.videoLink
           ? this.convertLink(this.note.videoLink)
