@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { UserState } from './auth/state/user.state';
 import { Logout } from './auth/state/user.action';
+import { ClearError } from './state/error.action';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -23,7 +24,12 @@ export class JwtInterceptor implements HttpInterceptor {
       UserState.isAuthenticated
     );
 
-    if (this.store.selectSnapshot(UserState.isExpired)) {
+    this.store.dispatch(new ClearError());
+
+    if (
+      this.store.selectSnapshot(UserState.token) &&
+      this.store.selectSnapshot(UserState.isExpired)
+    ) {
       this.store.dispatch(new Logout());
     }
 
