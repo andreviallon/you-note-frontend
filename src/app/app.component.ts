@@ -20,6 +20,7 @@ export class AppComponent {
   constructor(
     private actions: Actions,
     private router: Router,
+    private snackBar: MatSnackBar,
     private titleService: Title
   ) {
     this.titleService.setTitle('You Note');
@@ -46,6 +47,6 @@ export class AppComponent {
   }
 
   public openSnackBar(message: string): void {
-    this.snackBar.open(message);
+    this.snackBar.open(message, undefined, { duration: 2000 });
   }
 }
