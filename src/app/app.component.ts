@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Login, Logout } from './auth/state/user.action';
 import { UserState } from './auth/state/user.state';
 import { ErrorState } from './state/error.state';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +20,10 @@ export class AppComponent {
   constructor(
     private actions: Actions,
     private router: Router,
-    private snackBar: MatSnackBar
-  ) {}
+    private titleService: Title
+  ) {
+    this.titleService.setTitle('You Note');
+  }
 
   public ngOnInit(): void {
     this.actions.pipe(ofActionDispatched(Login)).subscribe(() => {
