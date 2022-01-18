@@ -24,9 +24,8 @@ import { Note } from 'src/app/note.model';
             <mat-label>Youtube Link</mat-label>
             <input matInput formControlName="videoLink" />
           </mat-form-field>
-          <div class="video_wrapper">
+          <div class="video_wrapper" *ngIf="safeSrc">
             <iframe
-              *ngIf="safeSrc"
               [src]="safeSrc"
               width="100%"
               height="100%"
@@ -117,7 +116,9 @@ export class NoteComponent implements OnInit {
     }
   }
 
-  public setSafeSrc(link: string): SafeResourceUrl {
+  public setSafeSrc(link: string): SafeResourceUrl | undefined {
+    if (!link.includes('https:')) return undefined;
+
     const convertedLink = this.convertLink(link);
     return this.sanitizeLink(convertedLink);
   }
