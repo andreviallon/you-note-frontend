@@ -36,7 +36,9 @@ export class AppComponent {
     });
 
     this.isAuthenticated$.subscribe((isAuthenticated: boolean) => {
-      if (isAuthenticated) this.router.navigate(['/notes']);
+      isAuthenticated
+        ? this.router.navigate(['/notes'])
+        : this.router.navigate(['/login']);
     });
 
     this.message$.subscribe((message) => {
