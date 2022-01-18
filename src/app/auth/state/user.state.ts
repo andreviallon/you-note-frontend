@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { environment } from 'src/environments/environment';
 import { User } from '../model/user';
 import { Login, Logout, Signup } from './user.action';
 import { JwtResponse } from '../model/jwt-response';
@@ -9,7 +8,8 @@ import jwtDecode from 'jwt-decode';
 import { Token } from '../model/token';
 import { SetError } from 'src/app/state/error.action';
 
-const URL = environment.apiUrl;
+// @ts-ignore
+const URL = process.env.API_URL || 'http://localhost:3000';
 
 export class UserStateModel {
   token: string | undefined;
