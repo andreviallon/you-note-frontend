@@ -7,9 +7,9 @@ import { JwtResponse } from '../model/jwt-response';
 import jwtDecode from 'jwt-decode';
 import { Token } from '../model/token';
 import { SetError } from 'src/app/state/error.action';
+import { environment } from 'src/environments/environment';
 
-// @ts-ignore
-const URL = process.env.API_URL || 'http://localhost:3000';
+const URL = environment.apiUrl;
 
 export class UserStateModel {
   token: string | undefined;

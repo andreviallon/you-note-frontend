@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Note } from 'src/app/note.model';
 import { SetError } from 'src/app/state/error.action';
+import { environment } from 'src/environments/environment';
 import {
   CreateNote,
   DeleteNote,
@@ -11,8 +12,7 @@ import {
   UpdateNote,
 } from './note.action';
 
-// @ts-ignore
-const URL = process.env.API_URL || 'http://localhost:3000';
+const URL = environment.apiUrl;
 
 export class NoteStateModel {
   notes: Note[] | undefined;
