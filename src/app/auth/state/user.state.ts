@@ -89,12 +89,10 @@ export class UserState {
         next: (res) => {
           const { accessToken } = res as JwtResponse;
 
-          patchState({
-            token: accessToken,
-          });
+          patchState({ token: accessToken });
         },
-        error: (error) => {
-          dispatch(new SetError(error));
+        error: () => {
+          dispatch(new SetError('incorrect credentials'));
         },
       });
   }
