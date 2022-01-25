@@ -17,6 +17,7 @@ const URL = environment.apiUrl;
 export class NoteStateModel {
   notes: Note[] | undefined;
   selectedNoteId: string | undefined;
+  isLoading: boolean = false;
 }
 
 @State<NoteStateModel>({
@@ -24,6 +25,7 @@ export class NoteStateModel {
   defaults: {
     notes: undefined,
     selectedNoteId: undefined,
+    isLoading: false,
   },
 })
 @Injectable()
@@ -36,6 +38,13 @@ export class NoteState {
   @Selector()
   static selectedNote(state: NoteStateModel): Note | undefined {
     return state.notes?.find((note) => note.id === state.selectedNoteId);
+  }
+
+  @Selector()
+  static isLoading(state: NoteStateModel): boolean {
+    console.log('state.isLoading', state.isLoading);
+
+    return state.isLoading;
   }
 
   constructor(private http: HttpClient) {}
@@ -53,13 +62,15 @@ export class NoteState {
     { patchState, dispatch }: StateContext<NoteStateModel>,
     {}: GetUserNotes
   ) {
+    patchState({ isLoading: true });
     this.http.get(`${URL}/notes`).subscribe({
       next: (res) => {
         const notes = res as Note[];
-        patchState({ notes });
+        patchState({ notes, isLoading: false });
       },
       error: (error) => {
         dispatch(new SetError(error.error.message));
+        patchState({ isLoading: false });
       },
     });
   }
@@ -69,6 +80,7 @@ export class NoteState {
     { patchState, getState, dispatch }: StateContext<NoteStateModel>,
     { title }: CreateNote
   ) {
+    patchState({ isLoading: true });
     this.http.post(`${URL}/notes`, { title }).subscribe({
       next: (res) => {
         const resNote = res as Note;
@@ -81,10 +93,15 @@ export class NoteState {
           newNotes = [resNote];
         }
 
-        patchState({ notes: newNotes, selectedNoteId: resNote.id });
+        patchState({
+          notes: newNotes,
+          selectedNoteId: resNote.id,
+          isLoading: false,
+        });
       },
       error: (error) => {
         dispatch(new SetError(error.error.message));
+        patchState({ isLoading: false });
       },
     });
   }
@@ -94,6 +111,7 @@ export class NoteState {
     { patchState, getState, dispatch }: StateContext<NoteStateModel>,
     { note }: UpdateNote
   ) {
+    patchState({ isLoading: true });
     this.http
       .patch(`${URL}/notes/${note.id}`, {
         title: note.title,
@@ -108,11 +126,12 @@ export class NoteState {
 
           if (notes && foundIndex) {
             notes[foundIndex] = resNote;
-            patchState({ notes: notes });
+            patchState({ notes: notes, isLoading: false });
           }
         },
         error: (error) => {
-          dispatch(new SetError(error.error.message));
+          dispatch(new SetError('Something went wrong :('));
+          patchState({ isLoading: false });
         },
       });
   }
@@ -125,10 +144,11 @@ export class NoteState {
     this.http.delete(`${URL}/notes/${noteId}`).subscribe({
       next: () => {
         const newNotes = getState().notes?.filter((note) => note.id !== noteId);
-        patchState({ notes: newNotes });
+        patchState({ notes: newNotes, isLoading: false });
       },
       error: (error) => {
         dispatch(new SetError(error.error.message));
+        patchState({ isLoading: false });
       },
     });
   }

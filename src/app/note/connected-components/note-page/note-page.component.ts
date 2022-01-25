@@ -23,6 +23,7 @@ import { NoteState } from '../../state/note.state';
           [notes]="notes$ | async"
           [selectedNote]="selectedNote$ | async"
           [user]="user$ | async"
+          [isLoading]="isLoading$ | async"
           (selectNote)="selectNote($event)"
           (createNote)="createNote($event)"
           (deleteNote)="deleteNote($event)"
@@ -36,6 +37,7 @@ import { NoteState } from '../../state/note.state';
           <ng-container *ngIf="selectedNote$ | async as selectedNote">
             <app-note
               [note]="selectedNote"
+              [isLoading]="isLoading$ | async"
               (updateNote)="updateNote($event)"
             ></app-note>
           </ng-container>
@@ -49,6 +51,7 @@ export class NotePageComponent {
   @Select(UserState.user) user$!: Observable<User>;
   @Select(NoteState.notes) notes$!: Observable<Note[]>;
   @Select(NoteState.selectedNote) selectedNote$!: Observable<Note | null>;
+  @Select(NoteState.isLoading) isLoading$!: Observable<boolean>;
 
   public showSideBar = true;
 

@@ -48,10 +48,19 @@ import { Note } from 'src/app/note.model';
               ></quill-editor>
             </div>
             <div class="flex gap-4 justify-end">
-              <button mat-stroked-button (click)="discardChanges()">
+              <button
+                mat-stroked-button
+                (click)="discardChanges()"
+                [disabled]="isLoading"
+              >
                 Cancel
               </button>
-              <button mat-flat-button color="primary" (click)="save()">
+              <button
+                mat-flat-button
+                color="primary"
+                (click)="save()"
+                [disabled]="isLoading"
+              >
                 Save
               </button>
             </div>
@@ -65,6 +74,7 @@ import { Note } from 'src/app/note.model';
 })
 export class NoteComponent implements OnInit {
   @Input() note!: Note;
+  @Input() isLoading!: boolean | null;
   @Output() updateNote: EventEmitter<Note> = new EventEmitter<Note>();
 
   public noteForm!: FormGroup;

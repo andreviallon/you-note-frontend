@@ -9,6 +9,7 @@ import { Note } from 'src/app/note.model';
       <app-notes-list
         [notes]="notes"
         [selectedNote]="selectedNote"
+        [isLoading]="isLoading"
         (selectNote)="selectNote.emit($event)"
         (createNote)="createNote.emit($event)"
         (deleteNote)="deleteNote.emit($event)"
@@ -27,6 +28,7 @@ export class SidebarComponent {
   @Input() notes!: Note[] | null;
   @Input() selectedNote!: Note | null;
   @Input() user!: User | null;
+  @Input() isLoading!: boolean | null;
 
   @Output() selectNote: EventEmitter<string> = new EventEmitter();
   @Output() createNote: EventEmitter<string> = new EventEmitter();

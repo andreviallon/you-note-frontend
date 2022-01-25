@@ -19,7 +19,12 @@ import { Note } from 'src/app/note.model';
             <mat-label>New note</mat-label>
             <input matInput formControlName="title" />
           </mat-form-field>
-          <button mat-flat-button color="primary" (click)="submit()">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="submit()"
+            [disabled]="isLoading"
+          >
             Add
           </button>
         </div>
@@ -55,6 +60,7 @@ import { Note } from 'src/app/note.model';
 export class NotesListComponent {
   @Input() notes!: Note[] | null;
   @Input() selectedNote!: Note | null;
+  @Input() isLoading!: boolean | null;
 
   @Output() selectNote: EventEmitter<string> = new EventEmitter();
   @Output() createNote: EventEmitter<string> = new EventEmitter();
