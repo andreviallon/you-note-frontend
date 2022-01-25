@@ -24,6 +24,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const mat = [
   CommonModule,
@@ -50,6 +51,7 @@ const mat = [
   MatTabsModule,
   MatCheckboxModule,
   MatSnackBarModule,
+  MatProgressSpinnerModule,
 ];
 
 @NgModule({
