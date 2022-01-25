@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserCredentials } from '../../model/user-credentials';
 
@@ -34,6 +34,7 @@ import { UserCredentials } from '../../model/user-credentials';
         class="flex w-full"
         color="primary"
         (click)="submit()"
+        [disabled]="isLoading"
       >
         Login
       </button>
@@ -42,6 +43,7 @@ import { UserCredentials } from '../../model/user-credentials';
   styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent implements OnInit {
+  @Input() isLoading!: boolean | null;
   @Output() login: EventEmitter<UserCredentials> = new EventEmitter();
 
   public loginForm!: FormGroup;

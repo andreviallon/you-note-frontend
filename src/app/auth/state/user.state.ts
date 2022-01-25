@@ -13,12 +13,14 @@ const URL = environment.apiUrl;
 
 export class UserStateModel {
   token: string | undefined;
+  isLoading: boolean = false;
 }
 
 @State<UserStateModel>({
   name: 'user',
   defaults: {
     token: undefined,
+    isLoading: false,
   },
 })
 @Injectable()
@@ -36,6 +38,11 @@ export class UserState {
   @Selector()
   static isAuthenticated(state: UserStateModel): boolean {
     return !!state.token;
+  }
+
+  @Selector()
+  static isLoading(state: UserStateModel): boolean {
+    return state.isLoading;
   }
 
   @Selector()
@@ -57,9 +64,10 @@ export class UserState {
 
   @Action(Signup)
   async signup(
-    { dispatch }: StateContext<UserStateModel>,
+    { dispatch, patchState }: StateContext<UserStateModel>,
     { userCredentials }: Login
   ) {
+    patchState({ isLoading: true });
     this.http
       .post(`${URL}/auth/signup`, {
         email: userCredentials.email,
@@ -70,6 +78,7 @@ export class UserState {
           return dispatch(new Login(userCredentials));
         },
         error: (error) => {
+          patchState({ isLoading: false });
           dispatch(new SetError(error.error.message));
         },
       });
@@ -80,6 +89,7 @@ export class UserState {
     { patchState, dispatch }: StateContext<UserStateModel>,
     { userCredentials }: Login
   ) {
+    patchState({ isLoading: true });
     this.http
       .post(`${URL}/auth/signin`, {
         email: userCredentials.email,
@@ -89,10 +99,11 @@ export class UserState {
         next: (res) => {
           const { accessToken } = res as JwtResponse;
 
-          patchState({ token: accessToken });
+          patchState({ token: accessToken, isLoading: false });
         },
         error: () => {
           dispatch(new SetError('incorrect credentials'));
+          patchState({ isLoading: false });
         },
       });
   }

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { UserCredentials } from '../../model/user-credentials';
 import { Login, Signup } from '../../state/user.action';
+import { UserState } from '../../state/user.state';
 
 @Component({
   selector: 'app-login-page',
@@ -14,10 +16,16 @@ import { Login, Signup } from '../../state/user.action';
         <mat-card-content>
           <mat-tab-group mat-align-tabs="center">
             <mat-tab label="Sign up">
-              <app-signup-form (signup)="signup($event)"></app-signup-form>
+              <app-signup-form
+                [isLoading]="isLoading$ | async"
+                (signup)="signup($event)"
+              ></app-signup-form>
             </mat-tab>
             <mat-tab label="Login">
-              <app-login-form (login)="login($event)"></app-login-form>
+              <app-login-form
+                [isLoading]="isLoading$ | async"
+                (login)="login($event)"
+              ></app-login-form>
             </mat-tab>
           </mat-tab-group>
         </mat-card-content>
@@ -27,6 +35,8 @@ import { Login, Signup } from '../../state/user.action';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent {
+  @Select(UserState.isLoading) isLoading$!: Observable<boolean>;
+
   constructor(private store: Store) {}
 
   public signup(userCredentials: UserCredentials): void {

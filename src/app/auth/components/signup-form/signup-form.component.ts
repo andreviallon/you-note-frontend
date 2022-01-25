@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -67,6 +67,7 @@ import { UserCredentials } from '../../model/user-credentials';
   styleUrls: ['./signup-form.component.scss'],
 })
 export class SignupFormComponent implements OnInit {
+  @Input() isLoading!: boolean | null;
   @Output() signup: EventEmitter<UserCredentials> = new EventEmitter();
 
   public signupForm!: FormGroup;
