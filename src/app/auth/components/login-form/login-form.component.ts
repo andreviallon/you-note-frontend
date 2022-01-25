@@ -34,9 +34,10 @@ import { UserCredentials } from '../../model/user-credentials';
         class="flex w-full"
         color="primary"
         (click)="submit()"
-        [disabled]="isLoading"
+        [disabled]="!loginForm.valid || isLoading"
       >
-        Login
+        <span>Login</span>
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
       </button>
     </form>
   `,
